@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#dbname=$1
 #fullbackup dir
 backup_dir="$1"
 dbname="$2"
