@@ -3,7 +3,7 @@
 #dbname=$1
 #fullbackup dir
 backup_dir="$1"
-dbname="fire"
+dbname="$2"
 datadir=/var/lib/mysql
 
 discardtablespace='/tmp/discard.sql'
