@@ -4,6 +4,7 @@
 #fullbackup dir
 backup_dir="$1"
 dbname="$2"
+nodatafile="$3"
 datadir=/var/lib/mysql
 
 discardtablespace='/tmp/discard.sql'
@@ -23,7 +24,8 @@ echo "$(date +'%Y-%m-%d %H:%M:%S') Appending database name $dbname to variable f
 echo -e "SET @databasename = '$dbname';\n$(cat grabresults.sql)" > grabresults2.sql
 
 #Apply data structure for $dbname
-mariadb $dbname < /home/harrypask/scripts/testing/nodata.sql
+#mariadb $dbname < /home/harrypask/scripts/testing/nodata.sql
+mariadb $dbname < $nodatafile
 
 #Pipe generated file into mariadb to export four .sql files for process
 mariadb < grabresults2.sql
