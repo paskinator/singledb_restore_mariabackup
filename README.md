@@ -21,6 +21,9 @@ nodatafile="$3"
 bash singledb.bash /media/backups/2023-09-12/fullbackup/  /home/jeffery/restore/nodata.sql
 ```
 
+#### Things to know
+Once run this script will read the grabresults.sql file in the same directory you run this so make sure both files are in the directory. The script will output a file called grabresults2.sql which has the database name in a SQL variable. The Script will then connect to MariaDB
+
 ### Cronjob for no-data SQL file
 #### To make this proess work we need the table structure, we need to run the following command, add username (-u backupuser) and password(-ppasswordforaccount) parameters if needed
 
