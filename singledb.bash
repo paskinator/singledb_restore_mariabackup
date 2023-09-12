@@ -11,6 +11,11 @@ importtablespace='/tmp/import.sql'
 dropkeys='/tmp/drop.sql'
 addkeys='/tmp/add.sql'
 
+declare -a mariadboptions=(
+		"-u user"
+		"-ppassword"
+		)
+
 #Removing old files as MariaDB can't overwrite files
 rm -f $discardtablespace
 rm -f $importtablespace
@@ -24,18 +29,18 @@ echo -e "SET @databasename = '$dbname';\n$(cat grabresults.sql)" > grabresults2.
 
 #Apply data structure for $dbname
 #mariadb $dbname < /home/harrypask/scripts/testing/nodata.sql
-mariadb $dbname < $nodatafile
+mariadb "${mariadboptions[@]}" $dbname < $nodatafile
 
 #Pipe generated file into mariadb to export four .sql files for process
-mariadb < grabresults2.sql
+mariadb "${mariadboptions[@]}" < grabresults2.sql
 
 #drop keys
 echo "$(date +'%Y-%m-%d %H:%M:%S') Dropping keys for database $dbname"
-mariadb $dbname < $dropkeys
+mariadb "${mariadboptions[@]}" $dbname < $dropkeys
 
 #discard tablespace
 echo "$(date +'%Y-%m-%d %H:%M:%S') Discarding tablespaces for database $dbname"
-mariadb $dbname < $discardtablespace
+mariadb "${mariadboptions[@]}" $dbname < $discardtablespace
 
 #copy files
 cp $backup_dir/$dbname/*.cfg /var/lib/mysql/$dbname
@@ -47,8 +52,8 @@ sudo chown -R mysql:mysql $datadir
 
 #import tablespaces
 echo "$(date +'%Y-%m-%d %H:%M:%S') Importing tables spaces for database $dbname"
-mariadb $dbname < $importtablespace
+mariadb "${mariadboptions[@]}" $dbname < $importtablespace
 
 #add keys
 echo "$(date +'%Y-%m-%d %H:%M:%S') Adding keys back to database $dbname"
-mariadb $dbname < $addkeys
+mariadb "${mariadboptions[@]}" $dbname < $addkeys
