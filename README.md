@@ -33,12 +33,12 @@ declare -a mariadboptions=(
 MariaDB will then output four files that it will run in the correct order.
 
 ### Cronjob for no-data SQL file
-#### To make this proess work we need the table structure, we need to run the following command, add username (-u backupuser) and password(-ppasswordforaccount) parameters if needed
+To make this proess work we need the table structure, we need to run the following command, add username (-u backupuser) and password(-ppasswordforaccount) parameters if needed
 
 ```bash
 mariadb-dump --no-data fire > nodata.sql
 ```
-#### Crontab config for 2am, run as many times as you need if data structure changes alot in your server, as this will not take long to run you make want to do this inline with your Mariabackup schedule
+Crontab config for 2am, run as many times as you need if data structure changes alot in your server, as this will not take long to run you make want to do this inline with your Mariabackup schedule
 ```bash
 0 2 * * * /bin/bash /path/to/mariabackup.bash
 ```
